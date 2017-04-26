@@ -475,4 +475,3 @@ return(new BaseConic(atof(userInput[1].c_str()), atof(userInput[2].c_str()), ato
 */
 
 
-
