@@ -1,7 +1,7 @@
 /*
 	Marshall Lindsay
 	ECE3220
-	Lab10
+	Lab10 Part 1
 	4/25/17
 */
 #include <iostream>

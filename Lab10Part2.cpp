@@ -1,7 +1,7 @@
 /*
 	Marshall Lindsay
-	Lab7
-	3/20/17
+	Lab10
+	4/25/17
 */
 
 #include <string>
@@ -284,7 +284,24 @@ void Signal::Save_file(string newFileName){
 	saveFile.close();
 	return;
 }
-Signal operator+(Signal, Signal);
+
+class ExceptionObject{
+	private:
+		int size1;
+		int size2;
+	public:
+		ExceptionObject(int a, int b) : size1(a), size2(b){};
+		void msg(void);
+	
+};
+
+void ExceptionObject::msg(void){
+	cout<<"\n Could not add the two signals, they are not the same size!\n"
+		<<"\n Signal1 size: "<<this->size1
+		<<"\n Signal2 size: "<<this->size2<<endl;
+}
+
+Signal operator+(Signal, Signal) throw(ExceptionObject);
 void optionMenu();
 double scaling();
 double offsetting();
@@ -324,6 +341,8 @@ int main(){
 				}
 				catch(...){										//Catch will catch the bad file exception.
 					cout<<"\n "<<fileName<<" is not a valid file!"<<endl;
+					cin.clear();
+					fflush(stdin);
 				}
 			}
 		}else{
@@ -375,8 +394,11 @@ int main(){
 					cout<<"Invalid input!"<<endl;
 				}
 			}
+			catch(ExceptionObject eo){
+				eo.msg();
+			}
 			catch(...){
-				
+				cout<<"\n Catch all block from optionsMenu"<<endl;
 			}
 		}
 		
@@ -544,10 +566,9 @@ Signal addSignals(){
 return(*dataSignal);
 }
 
-Signal operator+(Signal sig1, Signal sig2){
+Signal operator+(Signal sig1, Signal sig2) throw(ExceptionObject){
 	if(sig1.getLength() != sig2.getLength()){
-		cout<<"Cannot add signals if different lengths!"<<endl;
-		return sig1;
+		throw(ExceptionObject(sig1.getLength(), sig2.getLength()));
 	}
 	
 	for(int i = 0; i < sig1.getLength(); i++){
